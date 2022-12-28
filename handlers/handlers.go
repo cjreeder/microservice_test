@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/byuoitav/clevertouch-control/actions"
+	"github.com/cjreeder/microservice_test/actions"
 
 	"github.com/gin-gonic/gin"
 )

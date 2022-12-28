@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/byuoitav/clevertouch-control/handlers"
+	"github.com/cjreeder/microservice_test/handlers"
 	"github.com/spf13/pflag"
 )
 
