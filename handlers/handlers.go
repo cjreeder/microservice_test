@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
+	Logger "github.com/cjreeder/logging-library"
 	"github.com/cjreeder/microservice_test/actions"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,8 +22,8 @@ func SetPower(context *gin.Context) {
 	context.JSON(http.StatusOK, 1)
 }
 
-func GetPower(context *gin.Context) {
-
+func GetPower(context *gin.Context, L *Logger.Log) {
+	L.Log.Infof("TESTING!!!! GET POWER!!!!")
 	power, err := actions.GetPower(context, context.Param("address"))
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, err.Error())
@@ -94,7 +94,7 @@ func SetInput(context *gin.Context) {
 }
 
 func GetInput(context *gin.Context) {
-
+	//L.Log.Infof("Testing")
 	input, err := actions.GetInput(context.Param("address"))
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, err.Error())

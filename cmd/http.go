@@ -3,19 +3,14 @@ package main
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/cjreeder/microservice_test/handlers"
-	"github.com/spf13/pflag"
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	var port string
-	pflag.StringVarP(&port, "port", "p", "8013", "port for microservice to av-api communication")
-	pflag.Parse()
-	port = ":" + port
-
-	router := gin.Default()
+func (w *WebServer) buildHTTPServer() {
+	router := gin.New()
+	router.Use(gin.Recovery())
+	//router.Use(Log.L())
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
@@ -27,6 +22,12 @@ func main() {
 			"message": "good",
 		})
 	})
+
+	// Logging router and endpoints
+	lroute := router.Group("/log")
+	lroute.GET("/level", L.GetLogLevel)
+	lroute.PUT("/level/:level", L.SetLogLevel)
+
 	// :address is the address to the device that you want to manage
 	// group your api's by version so you can roll out a newer version
 	// without breaking backwards compatibility.
@@ -48,7 +49,7 @@ func main() {
 	route.GET("/:address/booted", handlers.GetBooted)
 
 	server := &http.Server{
-		Addr:           port,
+		Addr:           w.port,
 		MaxHeaderBytes: 1021 * 10,
 	}
 
