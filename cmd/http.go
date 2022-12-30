@@ -25,8 +25,8 @@ func (W WebServer) BuildHTTPServer() {
 
 	// Logging router and endpoints
 	lroute := router.Group("/log")
-	lroute.GET("/level", W.Log.GetLogLevel())
-	lroute.PUT("/level/:level", W.Log.SetLogLevel())
+	lroute.GET("/level", W.Log.GetLogLevel)
+	lroute.PUT("/level/:level", W.Log.SetLogLevel)
 
 	// :address is the address to the device that you want to manage
 	// group your api's by version so you can roll out a newer version
