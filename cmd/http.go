@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (w *WebServer) buildHTTPServer() {
+func (W WebServer) BuildHTTPServer() {
 	router := gin.New()
 	router.Use(gin.Recovery())
 	//router.Use(Log.L())
@@ -25,8 +25,8 @@ func (w *WebServer) buildHTTPServer() {
 
 	// Logging router and endpoints
 	lroute := router.Group("/log")
-	lroute.GET("/level", L.GetLogLevel)
-	lroute.PUT("/level/:level", L.SetLogLevel)
+	lroute.GET("/level", W.Log.GetLogLevel())
+	lroute.PUT("/level/:level", W.Log.SetLogLevel())
 
 	// :address is the address to the device that you want to manage
 	// group your api's by version so you can roll out a newer version
@@ -49,7 +49,7 @@ func (w *WebServer) buildHTTPServer() {
 	route.GET("/:address/booted", handlers.GetBooted)
 
 	server := &http.Server{
-		Addr:           w.port,
+		Addr:           W.port,
 		MaxHeaderBytes: 1021 * 10,
 	}
 

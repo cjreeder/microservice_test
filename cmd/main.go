@@ -3,12 +3,11 @@ package main
 import (
 	Logger "github.com/cjreeder/logging-library"
 	"github.com/spf13/pflag"
-	"go.uber.org/zap"
 )
 
 type WebServer struct {
 	port string
-	Log  *zap.SugaredLogger
+	Log  Logger.Logger
 }
 
 func main() {
@@ -24,8 +23,8 @@ func main() {
 	// Initiate the WebServer
 	W := &WebServer{
 		port: port,
-		Log:  L.Log,
+		Log:  Logger.Logger{},
 	}
 
-	W.buildHTTPServer()
+	W.BuildHTTPServer()
 }
