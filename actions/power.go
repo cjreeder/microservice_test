@@ -3,6 +3,8 @@ package actions
 import (
 	"context"
 	"log"
+
+	Logger "github.com/cjreeder/logging-library"
 )
 
 /*
@@ -60,7 +62,7 @@ func SetPower(ctx context.Context, address string, status bool) error {
 	return nil
 }
 
-func GetPower(ctx context.Context, address string) (Power, error) {
+func GetPower(ctx context.Context, address string, L Logger.Logger) (Power, error) {
 	var output Power
 	/*
 		//30 3A 30 31 72 30 30 30 31 0D (ON)
@@ -87,7 +89,7 @@ func GetPower(ctx context.Context, address string) (Power, error) {
 		}
 	*/
 
-	log.Printf("Getting Power Status for device: %v", address)
+	L.Log.Infof("Getting Power Status for device: %v", address)
 	output.Power = "on"
 	return output, nil
 }

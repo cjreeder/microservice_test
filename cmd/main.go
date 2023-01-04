@@ -25,5 +25,5 @@ func main() {
 		port: port,
 		Log:  Logger.Logger{},
 	}
-	W.BuildHTTPServer()
+	W.BuildHTTPServer(L)
 }

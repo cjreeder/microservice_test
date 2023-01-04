@@ -22,9 +22,9 @@ func SetPower(context *gin.Context) {
 	context.JSON(http.StatusOK, 1)
 }
 
-func GetPower(context *gin.Context, L *Logger.Log) {
+func GetPower(context *gin.Context, L Logger.Logger) {
 	L.Log.Infof("TESTING!!!! GET POWER!!!!")
-	power, err := actions.GetPower(context, context.Param("address"))
+	power, err := actions.GetPower(context, context.Param("address"), L)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, err.Error())
 	}

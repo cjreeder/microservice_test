@@ -3,11 +3,12 @@ package main
 import (
 	"net/http"
 
+	Logger "github.com/cjreeder/logging-library"
 	"github.com/cjreeder/microservice_test/handlers"
 	"github.com/gin-gonic/gin"
 )
 
-func (W WebServer) BuildHTTPServer() {
+func (W WebServer) BuildHTTPServer(L Logger.Logger) {
 	router := gin.New()
 	router.Use(gin.Recovery())
 	//router.Use(Log.L())
@@ -25,8 +26,12 @@ func (W WebServer) BuildHTTPServer() {
 
 	// Logging router and endpoints
 	lroute := router.Group("/log")
-	lroute.GET("/level", W.Log.GetLogLevel)
-	lroute.PUT("/level/:level", W.Log.SetLogLevel)
+	lroute.GET("/level", func(c *gin.Context) {
+		W.Log.GetLogLevel(c)
+	})
+	lroute.PUT("/level/:level", func(c *gin.Context) {
+		W.Log.SetLogLevel(c)
+	})
 
 	// :address is the address to the device that you want to manage
 	// group your api's by version so you can roll out a newer version
@@ -42,7 +47,9 @@ func (W WebServer) BuildHTTPServer() {
 	route.GET("/:address/input/:input", handlers.SetInput)
 
 	// status endpoints
-	route.GET("/:address/power", handlers.GetPower)
+	route.GET("/:address/power", func(c *gin.Context) {
+		handlers.GetPower(c, L)
+	})
 	route.GET("/:address/volume", handlers.GetVolume)
 	route.GET("/:address/volume/mute", handlers.GetMute)
 	route.GET("/:address/input", handlers.GetInput)
